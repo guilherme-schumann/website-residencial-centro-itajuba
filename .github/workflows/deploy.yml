@@ -23,14 +23,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # Habilita o GitHub Pages e expõe o base_path.
-      # enablement: true cria o site do Pages automaticamente no primeiro deploy —
-      # requer Settings → Actions → General → Workflow permissions = "Read and write".
+      # Lê a configuração do GitHub Pages (somente leitura) e expõe o base_path.
+      # IMPORTANTE: habilite o Pages UMA vez em Settings → Pages → Source: "GitHub Actions".
+      # Não usamos "enablement: true" porque, neste repo, a criação do site via API é
+      # bloqueada para o GITHUB_TOKEN ("Resource not accessible by integration").
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v5
-        with:
-          enablement: true
 
       - name: Setup Node
         uses: actions/setup-node@v4
