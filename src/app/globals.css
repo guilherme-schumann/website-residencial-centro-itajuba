@@ -1,0 +1,130 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --ink: #0e211c;
+  --cream: #f4eee2;
+  --gold: #c8943d;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-cream text-ink font-sans antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Compensa o header fixo ao navegar por âncoras */
+  section[id] {
+    scroll-margin-top: 84px;
+  }
+
+  ::selection {
+    background: var(--gold);
+    color: #0e211c;
+  }
+
+  /* Scrollbar discreta (desktop) */
+  @media (min-width: 768px) {
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0a1714;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #2a4239;
+      border-radius: 999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--gold);
+    }
+  }
+}
+
+@layer components {
+  .container-px {
+    @apply mx-auto w-full max-w-content px-5 sm:px-8 lg:px-10;
+  }
+
+  /* Eyebrow / kicker padrão */
+  .eyebrow {
+    @apply inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-widest2 text-gold;
+  }
+
+  /* Título de seção */
+  .section-title {
+    @apply font-display text-3xl leading-[1.1] sm:text-4xl lg:text-[2.75rem];
+  }
+
+  /* Linha dourada decorativa */
+  .gold-rule {
+    @apply h-px w-12 bg-gradient-to-r from-gold to-transparent;
+  }
+
+  /* Botão primário (dourado) */
+  .btn-gold {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-br from-gold-300 to-gold
+           px-7 py-3.5 text-sm font-semibold text-ink-900 shadow-gold transition-all duration-300
+           hover:-translate-y-0.5 hover:shadow-[0_18px_44px_-12px_rgba(200,148,61,0.6)]
+           focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold;
+  }
+
+  /* Botão secundário (contorno) */
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-cream/40
+           px-7 py-3.5 text-sm font-semibold text-cream transition-all duration-300
+           hover:border-gold hover:text-gold;
+  }
+
+  .btn-outline-dark {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-ink/20
+           px-7 py-3.5 text-sm font-semibold text-ink transition-all duration-300
+           hover:border-gold hover:text-gold-600;
+  }
+}
+
+/* ----- Scroll reveal (componente Reveal) ----- */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+/* Textura de ruído sutil para fundos escuros */
+.bg-grain {
+  background-image: radial-gradient(
+    circle at 1px 1px,
+    rgba(244, 238, 226, 0.04) 1px,
+    transparent 0
+  );
+  background-size: 22px 22px;
+}
