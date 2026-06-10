@@ -59,16 +59,18 @@ Quase tudo que você precisa ajustar está em **`src/lib/site.ts`**:
 > GitHub Pages (`/<repo>` em project pages; vazio em user page / domínio próprio), então
 > os caminhos de imagens, vídeos e assets funcionam corretamente em qualquer caso.
 
-### ⚠️ Erro `Resource not accessible by integration` / `Create Pages site failed`
+### ⚠️ Erros de Pages no deploy (`Resource not accessible...` ou `Get Pages site failed: Not Found`)
 
-Esse erro acontece quando o **GitHub Pages ainda não foi habilitado** no repositório — o
-workflow não consegue *criar* o site (o `GITHUB_TOKEN` não tem essa permissão). Resolva
-fazendo **uma vez** (sem alterar código):
+Ambos significam que o **GitHub Pages ainda não foi criado/habilitado** no repositório. O
+workflow usa `enablement: true` para **criar o site automaticamente** no primeiro deploy,
+mas para isso o token precisa de permissão de escrita. Faça **uma vez**:
 
-1. **Settings → Pages → Build and deployment → Source: `GitHub Actions`.**
-2. (Se ainda falhar) **Settings → Actions → General → Workflow permissions:**
-   selecione **Read and write permissions** e salve.
-3. Reexecute o workflow em **Actions → Deploy to GitHub Pages → Re-run jobs**.
+1. **Settings → Actions → General → Workflow permissions:** selecione
+   **Read and write permissions** e salve. _(É o que permite ao workflow criar o Pages.)_
+2. Reexecute em **Actions → Deploy to GitHub Pages → Re-run jobs**.
+
+> Alternativa: habilitar o Pages manualmente em **Settings → Pages → Source: `GitHub Actions`**
+> — nesse caso o site já existe e o `enablement` apenas o lê.
 
 ## 🧱 Stack
 
