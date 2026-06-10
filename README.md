@@ -55,11 +55,20 @@ Quase tudo que você precisa ajustar está em **`src/lib/site.ts`**:
    automaticamente. O site fica em:
    `https://<seu-usuario>.github.io/<nome-do-repo>/`
 
-> O workflow define `NEXT_PUBLIC_BASE_PATH=/<nome-do-repo>` automaticamente, então os
-> caminhos de imagens, vídeos e assets funcionam no subdiretório do GitHub Pages.
->
-> **Domínio próprio / User Page (`usuario.github.io`)?** Nesse caso o site roda na raiz:
-> defina `NEXT_PUBLIC_BASE_PATH` como vazio (remova o `env` do workflow ou ajuste para `""`).
+> O `NEXT_PUBLIC_BASE_PATH` é definido automaticamente a partir do `base_path` do
+> GitHub Pages (`/<repo>` em project pages; vazio em user page / domínio próprio), então
+> os caminhos de imagens, vídeos e assets funcionam corretamente em qualquer caso.
+
+### ⚠️ Erro `Resource not accessible by integration` / `Create Pages site failed`
+
+Esse erro acontece quando o **GitHub Pages ainda não foi habilitado** no repositório — o
+workflow não consegue *criar* o site (o `GITHUB_TOKEN` não tem essa permissão). Resolva
+fazendo **uma vez** (sem alterar código):
+
+1. **Settings → Pages → Build and deployment → Source: `GitHub Actions`.**
+2. (Se ainda falhar) **Settings → Actions → General → Workflow permissions:**
+   selecione **Read and write permissions** e salve.
+3. Reexecute o workflow em **Actions → Deploy to GitHub Pages → Re-run jobs**.
 
 ## 🧱 Stack
 

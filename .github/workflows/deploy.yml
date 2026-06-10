@@ -23,10 +23,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      # Lê a configuração do GitHub Pages do repositório (e expõe o base_path).
+      # Requer que o Pages esteja com Source = "GitHub Actions" nas Settings do repo.
+      # (Sem "enablement: true": evita a chamada de criação do site, que falha com
+      #  "Resource not accessible by integration" pois o GITHUB_TOKEN não pode criar o Pages.)
       - name: Setup Pages
+        id: pages
         uses: actions/configure-pages@v5
-        with:
-          enablement: true
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -39,8 +42,9 @@ jobs:
 
       - name: Build (static export)
         env:
-          # Project pages são servidas em /<repo>/ — define o basePath automaticamente.
-          NEXT_PUBLIC_BASE_PATH: /${{ github.event.repository.name }}
+          # base_path vem do Setup Pages: "/<repo>" em project pages e "" em user page
+          # ou domínio próprio — sempre o prefixo correto, sem precisar codificar o nome.
+          NEXT_PUBLIC_BASE_PATH: ${{ steps.pages.outputs.base_path }}
         run: npm run build
 
       - name: Upload artifact
